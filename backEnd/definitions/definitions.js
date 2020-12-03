@@ -53,22 +53,22 @@ module.exports = {
                 if (quantity <= 5) {
                     quantity = data.oneToFive
                 } else if (quantity >= 6 && quantity <= 10) {
-                    quantity = data.sixToTen
+                    quantity = data.sixToTen;
                 } else if (quantity >= 11 && quantity <= 25) {
                     quantity = data.elevenToTwentyFive
                 }else if (quantity >= 26 && quantity <= 50){
-                    quantity = data.twentySixToFifty
+                    quantity = data.twentySixToFifty;
                 }else if (quantity >= 51 && quantity <= 100){
-                    quantity = data.fiftyOneToOneHundred
+                    quantity = data.fiftyOneToOneHundred;
                 }else if (quantity >= 101 && quantity <= 205){
-                    quantity = data.oneHundredOneToTwoHundredFive
+                    quantity = data.oneHundredOneToTwoHundredFive;
                 }else if (quantity >= 251 && quantity <= 500){
-                    quantity = data.max
+                    quantity = data.max;
                 }
 
                 let cost = quantity * sqFt
 
                 return cost
-            })
+            });
     }
 };
