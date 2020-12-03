@@ -1,9 +1,11 @@
 import React from "react";
+import "./index.css";
+
 
 function Main(){
     return(
-        <div>
-            
+        <div className="mainCon">
+            hello world
         </div>
     )
 }
