@@ -168,15 +168,11 @@ module.exports = {
 
                 let cost;
 
-                if (tapeWrap) {
-                    cost = ((((parseInt(quantity) + 0.25) * sqFt) * 1.02) * 1.12).toString()
-                } else {
-                    cost = (quantity * sqFt).toString();
-                }
+                cost = (quantity * sqFt).toString();
 
                 console.log(cost)
 
-                return cost
+                return cost;
             }).catch(err => console.log(err));
     }
 };

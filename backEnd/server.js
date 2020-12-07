@@ -18,8 +18,6 @@ app.post("/api/Calculation", async (req, res) => {
         req.body.tapeWrap
     );
 
-   
-
     res.send(val);
 });
 
