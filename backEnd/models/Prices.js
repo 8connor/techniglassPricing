@@ -15,7 +15,31 @@ const PricingSchema = new Schema(
             type: Boolean,
             required: false
         },
-        Price: {
+        oneToFive: {
+            type: String,
+            required: false
+        },
+        sixToTen: {
+            type: String,
+            required: false
+        },
+        elevenToTwentyFive: {
+            type: String,
+            required: false
+        },
+        twentySixToFifty: {
+            type: String,
+            required: false
+        },
+        fiftyOneToOneHundred: {
+            type: String,
+            required: false
+        },
+        oneHundredOneToTwoHundredFive: {
+            type: String,
+            required: false
+        },
+        twoHundredFiftyOneToFiveHundred:{
             type: String,
             required: false
         }
