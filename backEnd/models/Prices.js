@@ -42,6 +42,34 @@ const PricingSchema = new Schema(
         twoHundredFiftyOneToFiveHundred:{
             type: String,
             required: false
+        },
+        oneToFiveTape: {
+            type: String,
+            required: false
+        },
+        sixToTenTape: {
+            type: String,
+            required: false
+        },
+        elevenToTwentyFiveTape: {
+            type: String,
+            required: false
+        },
+        twentySixToFiftyTape: {
+            type: String,
+            required: false
+        },
+        fiftyOneToOneHundredTape: {
+            type: String,
+            required: false
+        },
+        oneHundredOneToTwoHundredFiveTape: {
+            type: String,
+            required: false
+        },
+        twoHundredFiftyOneToFiveHundredTape:{
+            type: String,
+            required: false
         }
     }, { versionKey: false }
 );

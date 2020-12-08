@@ -5,6 +5,10 @@ const PORT = 3001;
 
 const def = require("./definitions/definitions");
 
+if (process.argv[2] === "Compile") {
+    def.compile();
+}
+
 app.use(json());
 
 app.post("/api/Calculation", async (req, res) => {
@@ -18,7 +22,7 @@ app.post("/api/Calculation", async (req, res) => {
         req.body.tapeWrap
     );
 
-    res.send(val);
+    res.json(val);
 });
 
 app.listen(PORT, () => {
