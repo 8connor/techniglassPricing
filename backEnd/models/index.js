@@ -1,3 +1,3 @@
 module.exports = {
-    Prices: require("./Prices.js")
+    Type: require("./Type.js")
 }

@@ -1,6 +1,5 @@
 var fs = require("fs");
 var mongoose = require("mongoose");
-const { parse } = require("path");
 
 mongoose.connect("mongodb://localhost/pricingDb", { useNewUrlParser: true });
 
@@ -8,9 +7,10 @@ var db = require("../models");
 
 module.exports = {
     compile: () => {
-        const grabTheList = async () => {
-            await fs.readFile("./definitions/Patterns.txt", 'utf8', function (err, data) {
-                if (err) throw err;
+        const grabTheList = () => {
+            console.log("made it to grab the list")
+            fs.readFile("./definitions/Patterns.txt", 'utf8', function (err, data) {
+                if (err) throw console.log(err);
                 let containerArr = [];
                 let thicknessArr = [];
                 let nameArr = [];
@@ -28,58 +28,85 @@ module.exports = {
                 }
 
                 for (var b = 0; b < nameArr.length; b++) {
-                    db.Prices.create({
-                        Thickness: thicknessArr[b],
-                        Pattern: nameArr[b]
-                    }).then(mongObj => mongObj)
+                    db.Type.create({
+                        thickness: thicknessArr[b],
+                        pattern: nameArr[b]
+                    }).then(mongObj => console.log(mongObj))
                         .catch(err => console.log(err));
                 }
             })
         };
 
 
-
         const addPrice = () => {
-
             fs.readFile("./definitions/1to5-tape.txt", "utf8", (err, data) => {
 
                 let prices = data.split("\r\n");
                 console.log("hit")
-                db.Prices.find().lean().then(results => {
+                db.Type.find().lean().then(results => {
                     console.log(results)
                     for (var u = 0; u < prices.length; u++) {
-                        db.Prices
-                            .updateMany({ _id: results[u]._id }, { $set: { oneToFiveTape: prices[u] } })
+                        db.Type
+                            .updateMany(
+                                { _id: results[u]._id },
+                                {
+
+                                    $push: {
+                                        priceDef: {
+                                            amount: "1-5",
+                                            price: prices[u],
+                                            tapeWrap: true
+                                        }
+                                    }
+                                })
                             .then(obj => obj)
                             .catch(err => console.log(err));
                     }
                 }).catch(err => console.log(err));
 
-            });
+            })
             fs.readFile("./definitions/6to10-tape.txt", "utf8", (err, data) => {
 
                 let prices = data.split("\r\n");
-
-                db.Prices.find().lean().then(results => {
+                db.Type.find().lean().then(results => {
+                    console.log(results)
                     for (var u = 0; u < prices.length; u++) {
-                        db.Prices
+                        db.Type
                             .updateMany(
                                 { _id: results[u]._id },
-                                { $set: { sixToTenTape: prices[u] } })
+                                {
+                                    $push: {
+                                        priceDef: {
+                                            amount: "6-10",
+                                            price: prices[u],
+                                            tapeWrap: true
+                                        }
+                                    }
+                                })
                             .then(obj => obj)
                             .catch(err => console.log(err));
                     }
                 }).catch(err => console.log(err));
-
             });
             fs.readFile("./definitions/11to25-tape.txt", "utf8", (err, data) => {
 
                 let prices = data.split("\r\n");
 
-                db.Prices.find().lean().then(results => {
+                db.Type.find().lean().then(results => {
+                    console.log(results)
                     for (var u = 0; u < prices.length; u++) {
-                        db.Prices
-                            .updateMany({ _id: results[u]._id }, { $set: { elevenToTwentyFiveTape: prices[u] } })
+                        db.Type
+                            .updateMany(
+                                { _id: results[u]._id },
+                                {
+                                    $push: {
+                                        priceDef: {
+                                            amount: "11-25",
+                                            price: prices[u],
+                                            tapeWrap: true
+                                        }
+                                    }
+                                })
                             .then(obj => obj)
                             .catch(err => console.log(err));
                     }
@@ -90,10 +117,21 @@ module.exports = {
 
                 let prices = data.split("\r\n");
 
-                db.Prices.find().lean().then(results => {
+                db.Type.find().lean().then(results => {
+                    console.log(results)
                     for (var u = 0; u < prices.length; u++) {
-                        db.Prices
-                            .updateMany({ _id: results[u]._id }, { $set: { twentySixToFiftyTape: prices[u] } })
+                        db.Type
+                            .updateMany(
+                                { _id: results[u]._id },
+                                {
+                                    $push: {
+                                        priceDef: {
+                                            amount: "26-50",
+                                            price: prices[u],
+                                            tapeWrap: true
+                                        }
+                                    }
+                                })
                             .then(obj => obj)
                             .catch(err => console.log(err));
                     }
@@ -104,10 +142,21 @@ module.exports = {
 
                 let prices = data.split("\r\n");
 
-                db.Prices.find().lean().then(results => {
+                db.Type.find().lean().then(results => {
+                    console.log(results)
                     for (var u = 0; u < prices.length; u++) {
-                        db.Prices
-                            .updateMany({ _id: results[u]._id }, { $set: { fiftyOneToOneHundredTape: prices[u] } })
+                        db.Type
+                            .updateMany(
+                                { _id: results[u]._id },
+                                {
+                                    $push: {
+                                        priceDef: {
+                                            amount: "51-100",
+                                            price: prices[u],
+                                            tapeWrap: true
+                                        }
+                                    }
+                                })
                             .then(obj => obj)
                             .catch(err => console.log(err));
                     }
@@ -118,11 +167,22 @@ module.exports = {
 
                 let prices = data.split("\r\n");
 
-                db.Prices.find().lean().then(results => {
+                db.Type.find().lean().then(results => {
+                    console.log(results)
                     for (var u = 0; u < prices.length; u++) {
-                        db.Prices
-                            .updateMany({ _id: results[u]._id }, { $set: { oneHundredOneToTwoHundredFiveTape: prices[u] } })
-                            .then(obj => console.log(obj))
+                        db.Type
+                            .updateMany(
+                                { _id: results[u]._id },
+                                {
+                                    $push: {
+                                        priceDef: {
+                                            amount: "101-205",
+                                            price: prices[u],
+                                            tapeWrap: true
+                                        }
+                                    }
+                                })
+                            .then(obj => obj)
                             .catch(err => console.log(err));
                     }
                 }).catch(err => console.log(err));
@@ -132,12 +192,22 @@ module.exports = {
 
                 let prices = data.split("\r\n");
 
-                db.Prices.find().lean().then(results => {
+                db.Type.find().lean().then(results => {
                     console.log(results)
                     for (var u = 0; u < prices.length; u++) {
-                        db.Prices
-                            .updateMany({ _id: results[u]._id }, { $set: { twoHundredFiftyOneToFiveHundredTape: prices[u] } })
-                            .then(obj => console.log(obj))
+                        db.Type
+                            .updateMany(
+                                { _id: results[u]._id },
+                                {
+                                    $push: {
+                                        priceDef: {
+                                            amount: "251-500",
+                                            price: prices[u],
+                                            tapeWrap: true
+                                        }
+                                    }
+                                })
+                            .then(obj => obj)
                             .catch(err => console.log(err));
                     }
                 }).catch(err => console.log(err));
@@ -146,10 +216,21 @@ module.exports = {
 
                 let prices = data.split("\r\n");
 
-                db.Prices.find().lean().then(results => {
+                db.Type.find().lean().then(results => {
+                    console.log(results)
                     for (var u = 0; u < prices.length; u++) {
-                        db.Prices
-                            .updateMany({ _id: results[u]._id }, { $set: { oneToFive: prices[u] } })
+                        db.Type
+                            .updateMany(
+                                { _id: results[u]._id },
+                                {
+                                    $push: {
+                                        priceDef: {
+                                            amount: "1-5",
+                                            price: prices[u],
+                                            tapeWrap: false
+                                        }
+                                    }
+                                })
                             .then(obj => obj)
                             .catch(err => console.log(err));
                     }
@@ -160,12 +241,21 @@ module.exports = {
 
                 let prices = data.split("\r\n");
 
-                db.Prices.find().lean().then(results => {
+                db.Type.find().lean().then(results => {
+                    console.log(results)
                     for (var u = 0; u < prices.length; u++) {
-                        db.Prices
+                        db.Type
                             .updateMany(
                                 { _id: results[u]._id },
-                                { $set: { sixToTen: prices[u] } })
+                                {
+                                    $push: {
+                                        priceDef: {
+                                            amount: "6-10",
+                                            price: prices[u],
+                                            tapeWrap: false
+                                        }
+                                    }
+                                })
                             .then(obj => obj)
                             .catch(err => console.log(err));
                     }
@@ -176,10 +266,21 @@ module.exports = {
 
                 let prices = data.split("\r\n");
 
-                db.Prices.find().lean().then(results => {
+                db.Type.find().lean().then(results => {
+                    console.log(results)
                     for (var u = 0; u < prices.length; u++) {
-                        db.Prices
-                            .updateMany({ _id: results[u]._id }, { $set: { elevenToTwentyFive: prices[u] } })
+                        db.Type
+                            .updateMany(
+                                { _id: results[u]._id },
+                                {
+                                    $push: {
+                                        priceDef: {
+                                            amount: "11-25",
+                                            price: prices[u],
+                                            tapeWrap: false
+                                        }
+                                    }
+                                })
                             .then(obj => obj)
                             .catch(err => console.log(err));
                     }
@@ -190,10 +291,21 @@ module.exports = {
 
                 let prices = data.split("\r\n");
 
-                db.Prices.find().lean().then(results => {
+                db.Type.find().lean().then(results => {
+                    console.log(results)
                     for (var u = 0; u < prices.length; u++) {
-                        db.Prices
-                            .updateMany({ _id: results[u]._id }, { $set: { twentySixToFifty: prices[u] } })
+                        db.Type
+                            .updateMany(
+                                { _id: results[u]._id },
+                                {
+                                    $push: {
+                                        priceDef: {
+                                            amount: "26-50",
+                                            price: prices[u],
+                                            tapeWrap: false
+                                        }
+                                    }
+                                })
                             .then(obj => obj)
                             .catch(err => console.log(err));
                     }
@@ -204,10 +316,21 @@ module.exports = {
 
                 let prices = data.split("\r\n");
 
-                db.Prices.find().lean().then(results => {
+                db.Type.find().lean().then(results => {
+                    console.log(results)
                     for (var u = 0; u < prices.length; u++) {
-                        db.Prices
-                            .updateMany({ _id: results[u]._id }, { $set: { fiftyOneToOneHundred: prices[u] } })
+                        db.Type
+                            .updateMany(
+                                { _id: results[u]._id },
+                                {
+                                    $push: {
+                                        priceDef: {
+                                            amount: "51-100",
+                                            price: prices[u],
+                                            tapeWrap: false
+                                        }
+                                    }
+                                })
                             .then(obj => obj)
                             .catch(err => console.log(err));
                     }
@@ -218,11 +341,22 @@ module.exports = {
 
                 let prices = data.split("\r\n");
 
-                db.Prices.find().lean().then(results => {
+                db.Type.find().lean().then(results => {
+                    console.log(results)
                     for (var u = 0; u < prices.length; u++) {
-                        db.Prices
-                            .updateMany({ _id: results[u]._id }, { $set: { oneHundredOneToTwoHundredFive: prices[u] } })
-                            .then(obj => console.log(obj))
+                        db.Type
+                            .updateMany(
+                                { _id: results[u]._id },
+                                {
+                                    $push: {
+                                        priceDef: {
+                                            amount: "101-205",
+                                            price: prices[u],
+                                            tapeWrap: false
+                                        }
+                                    }
+                                })
+                            .then(obj => obj)
                             .catch(err => console.log(err));
                     }
                 }).catch(err => console.log(err));
@@ -232,29 +366,42 @@ module.exports = {
 
                 let prices = data.split("\r\n");
 
-                db.Prices.find().lean().then(results => {
+                db.Type.find().lean().then(results => {
                     console.log(results)
                     for (var u = 0; u < prices.length; u++) {
-                        db.Prices
-                            .updateMany({ _id: results[u]._id }, { $set: { twoHundredFiftyOneToFiveHundred: prices[u] } })
-                            .then(obj => console.log(obj))
+                        db.Type
+                            .updateMany(
+                                { _id: results[u]._id },
+                                {
+                                    $push: {
+                                        priceDef: {
+                                            amount: "251-500",
+                                            price: prices[u],
+                                            tapeWrap: false
+                                        }
+                                    }
+                                })
+                            .then(obj => obj)
                             .catch(err => console.log(err));
                     }
                 }).catch(err => console.log(err));
             });
         }
-        grabTheList().then(addPrice());
 
+        // grabTheList();
+
+        // addPrice();
     },
     Calculate: (pattern, thickness, quantity, width, length, tapeWrap) => {
-        return db.Prices
+        return db.Type
             .findOne(
                 {
-                    Pattern: pattern,
-                    Thickness: thickness
+                    pattern: pattern,
+                    thickness: thickness
                 })
             .lean()
             .then(data => {
+                console.log(data);
 
                 let sqInch = (width * length);
                 let sqFt = sqInch / 144;
@@ -262,41 +409,15 @@ module.exports = {
                 console.log(sqInch);
                 console.log(sqFt);
 
-                if (tapeWrap) {
-                    if (quantity <= 5) {
-                        quantity = data.oneToFiveTape;
-                    } else if (quantity >= 6 && quantity <= 10) {
-                        quantity = data.sixToTenTape;
-                    } else if (quantity >= 11 && quantity <= 25) {
-                        quantity = data.elevenToTwentyFiveTape;
-                    } else if (quantity >= 26 && quantity <= 50) {
-                        quantity = data.twentySixToFiftyTape;
-                    } else if (quantity >= 51 && quantity <= 100) {
-                        quantity = data.fiftyOneToOneHundredTape;
-                    } else if (quantity >= 101 && quantity <= 205) {
-                        quantity = data.oneHundredOneToTwoHundredFiveTape;
-                    } else if (quantity >= 251 && quantity <= 500) {
-                        quantity = data.twoHundredFiftyOneToFiveHundredTape;
-                    }
-                } else {
-                    if (quantity <= 5) {
-                        quantity = data.oneToFive;
-                    } else if (quantity >= 6 && quantity <= 10) {
-                        quantity = data.sixToTen;
-                    } else if (quantity >= 11 && quantity <= 25) {
-                        quantity = data.elevenToTwentyFive;
-                    } else if (quantity >= 26 && quantity <= 50) {
-                        quantity = data.twentySixToFifty;
-                    } else if (quantity >= 51 && quantity <= 100) {
-                        quantity = data.fiftyOneToOneHundred;
-                    } else if (quantity >= 101 && quantity <= 205) {
-                        quantity = data.oneHundredOneToTwoHundredFive;
-                    } else if (quantity >= 251 && quantity <= 500) {
-                        quantity = data.twoHundredFiftyOneToFiveHundred;
-                    }
-                };
-
                 let cost;
+
+                for (var i = 0;i < data.priceDef.length; i++) {
+                    if (data.priceDef[i].amount === quantity && data.priceDef[i].tapeWrap === tapeWrap) {
+                        quantity = data.priceDef[i].price
+                    }else{
+                        continue
+                    }
+                }
 
                 cost = (quantity * sqFt);
 
